@@ -1,7 +1,8 @@
 import { SearchX } from 'lucide-react'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Button } from '@/components/ui/Button'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { track } from '@/features/analytics/services/analytics.service'
 import { useCartActions } from '@/features/cart/hooks/useCart'
 import { ProductCard } from '../components/ProductCard'
 import { ProductFilters } from '../components/ProductFilters'
@@ -14,14 +15,41 @@ export default function ProductListingPage() {
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState<CategoryFilter>('all')
   const [sort, setSort] = useState<SortOption>('featured')
+  const viewedProductIds = useRef(new Set<string>())
 
   const visibleProducts = useMemo(
     () => queryProducts(products, { search, category, sort }),
     [search, category, sort],
   )
 
+  // Track each product the first time it appears in this listing visit.
+  useEffect(() => {
+    for (const product of visibleProducts) {
+      if (viewedProductIds.current.has(product.id)) continue
+
+      viewedProductIds.current.add(product.id)
+      track('product_viewed', {
+        productId: product.id,
+        productName: product.name,
+        category: product.category,
+        price: product.price,
+      })
+    }
+  }, [visibleProducts])
+
   // Stable reference so memoized cards do not re-render on every keystroke.
-  const handleAddToCart = useCallback((product: Product) => addItem(product), [addItem])
+  const handleAddToCart = useCallback(
+    (product: Product) => {
+      track('add_to_cart', {
+        productId: product.id,
+        productName: product.name,
+        price: product.price,
+        quantity: 1,
+      })
+      addItem(product)
+    },
+    [addItem],
+  )
 
   const resetFilters = () => {
     setSearch('')

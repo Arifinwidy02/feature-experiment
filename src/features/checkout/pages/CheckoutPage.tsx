@@ -1,9 +1,10 @@
 import { ShoppingBag } from 'lucide-react'
-import { useState, type ChangeEvent, type SyntheticEvent } from 'react'
+import { useEffect, useRef, useState, type ChangeEvent, type SyntheticEvent } from 'react'
 import { Button } from '@/components/ui/Button'
 import { ButtonLink } from '@/components/ui/ButtonLink'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { Input } from '@/components/ui/Input'
+import { track } from '@/features/analytics/services/analytics.service'
 import { useCartActions, useCartState } from '@/features/cart/hooks/useCart'
 import { OrderConfirmation } from '../components/OrderConfirmation'
 import { OrderSummary } from '../components/OrderSummary'
@@ -17,6 +18,16 @@ export default function CheckoutPage() {
   const [values, setValues] = useState<CheckoutFormValues>(EMPTY_CHECKOUT_FORM)
   const [errors, setErrors] = useState<CheckoutFormErrors>({})
   const [placedOrder, setPlacedOrder] = useState<PlacedOrder | null>(null)
+  const checkoutStartedRef = useRef(false)
+  const placingOrderRef = useRef(false)
+
+  // Fire once per checkout visit; the ref also blocks duplicates in StrictMode.
+  useEffect(() => {
+    if (items.length === 0 || placedOrder || checkoutStartedRef.current) return
+
+    checkoutStartedRef.current = true
+    track('checkout_started', { itemCount, total })
+  }, [items.length, itemCount, total, placedOrder])
 
   // Shown even though the cart is now empty.
   if (placedOrder) return <OrderConfirmation order={placedOrder} />
@@ -45,6 +56,8 @@ export default function CheckoutPage() {
 
   const handleSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault()
+    if (placingOrderRef.current) return
+
     const nextErrors = validateCheckoutForm(values)
     setErrors(nextErrors)
 
@@ -54,8 +67,13 @@ export default function CheckoutPage() {
       return
     }
 
+    placingOrderRef.current = true
+    const orderId = generateOrderId()
+
+    track('purchase_completed', { orderId, itemCount, total })
+
     setPlacedOrder({
-      orderId: generateOrderId(),
+      orderId,
       email: values.email.trim(),
       items,
       totals: { itemCount, subtotal, shipping, total },
