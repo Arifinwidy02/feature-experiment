@@ -2,7 +2,7 @@ import { Check, ShoppingCart } from 'lucide-react'
 import { memo, useEffect, useState } from 'react'
 import { Button } from '@/components/ui/Button'
 import { ProductImage } from '@/components/ui/ProductImage'
-import { formatCurrency } from '@/lib/format'
+import { formatCurrency } from '@/utils/format'
 import type { Product } from '../types/product'
 
 interface ProductCardProps {

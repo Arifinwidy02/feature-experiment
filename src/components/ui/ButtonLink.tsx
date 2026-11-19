@@ -1,5 +1,5 @@
 import { Link, type LinkProps } from 'react-router-dom'
-import { cn } from '@/lib/cn'
+import { cn } from '@/utils/cn'
 import { buttonStyles, type ButtonSize, type ButtonVariant } from './buttonStyles'
 
 interface ButtonLinkProps extends LinkProps {

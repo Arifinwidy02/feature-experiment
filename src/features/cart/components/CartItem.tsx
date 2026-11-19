@@ -1,6 +1,6 @@
 import { Minus, Plus, Trash2 } from 'lucide-react'
 import { ProductImage } from '@/components/ui/ProductImage'
-import { formatCurrency } from '@/lib/format'
+import { formatCurrency } from '@/utils/format'
 import { MAX_QUANTITY } from '../lib/cartReducer'
 import type { CartItem as CartItemType } from '../types/cart'
 

@@ -1,9 +1,9 @@
 import type {
   AnalyticsEvent,
   AnalyticsEventName,
-} from "../types/analytics.types";
+} from "@/types/analytics.types";
 
-import { getUserId } from "./user-identity.service";
+import { getUserId } from "@/utils/user-identity";
 
 const EVENTS_KEY = "experiment-lab:events";
 

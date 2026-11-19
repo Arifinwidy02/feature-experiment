@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { ButtonLink } from '@/components/ui/ButtonLink'
 import { ProductImage } from '@/components/ui/ProductImage'
-import { formatCurrency } from '@/lib/format'
+import { formatCurrency } from '@/utils/format'
 import { FREE_SHIPPING_THRESHOLD } from '@/features/cart/lib/totals'
 import { products } from '@/features/products/data/products'
 

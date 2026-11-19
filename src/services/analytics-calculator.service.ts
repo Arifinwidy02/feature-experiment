@@ -1,4 +1,4 @@
-import type { AnalyticsEvent } from "../types/analytics.types";
+import type { AnalyticsEvent } from "@/types/analytics.types";
 
 export interface FunnelStep {
   eventName: AnalyticsEvent["eventName"];

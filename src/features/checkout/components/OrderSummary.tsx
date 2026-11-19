@@ -1,7 +1,7 @@
 import { ProductImage } from '@/components/ui/ProductImage'
 import { CartTotals } from '@/features/cart/components/CartTotals'
 import type { CartItem, CartTotals as CartTotalsData } from '@/features/cart/types/cart'
-import { formatCurrency } from '@/lib/format'
+import { formatCurrency } from '@/utils/format'
 
 interface OrderSummaryProps {
   items: readonly CartItem[]

@@ -1,4 +1,4 @@
-import { formatCurrency } from '@/lib/format'
+import { formatCurrency } from '@/utils/format'
 import { FREE_SHIPPING_THRESHOLD } from '../lib/totals'
 import type { CartTotals as CartTotalsData } from '../types/cart'
 

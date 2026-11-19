@@ -3,11 +3,11 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { MainLayout } from '@/components/layout/MainLayout'
 import { CartProvider } from '@/features/cart/context/CartContext'
 
-const HomePage = lazy(() => import('@/features/home/pages/HomePage'))
+const HomePage = lazy(() => import('@/pages/HomePage'))
 const ProductListingPage = lazy(() => import('@/features/products/pages/ProductListingPage'))
 const CartPage = lazy(() => import('@/features/cart/pages/CartPage'))
 const CheckoutPage = lazy(() => import('@/features/checkout/pages/CheckoutPage'))
-const NotFoundPage = lazy(() => import('./NotFoundPage'))
+const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'))
 
 const router = createBrowserRouter([
   {

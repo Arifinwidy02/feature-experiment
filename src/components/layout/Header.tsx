@@ -2,7 +2,7 @@ import { Menu, ShoppingCart, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { useCartState } from '@/features/cart/hooks/useCart'
-import { cn } from '@/lib/cn'
+import { cn } from '@/utils/cn'
 
 const NAV_LINKS = [
   { to: '/', label: 'Home', end: true },
